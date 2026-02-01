@@ -14,7 +14,7 @@ body {
     background-color: #D9D9D9;
     width: 50%;
 }
-img {
+.small {
     max-width: 25vh;
 }
 .left {
