@@ -6,7 +6,7 @@ body {
     overflow-wrap: break-word;
 }
 a {
-    color: blue;
+    color: #0000FF;
 }
 .box { 
     margin: 5px auto;
