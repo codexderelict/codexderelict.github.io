@@ -5,6 +5,9 @@ body {
     min-height: 100vh;
     overflow-wrap: break-word;
 }
+a {
+    color: blue;
+}
 .box { 
     margin: 5px auto;
     padding: 8px;
