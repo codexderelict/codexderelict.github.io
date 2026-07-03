@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Code Report: Chomskers Sentence Generator</title>
+        <link rel="stylesheet" href="/style.css">
+    </head>
+    <body>
+        <div class="box">
+            <h1>Code Report: Chomskers Sentence Generator</h1>
+            <h4>July 3rd, 2026</h4>
+            <hr>
+            <p>About 6 months ago, I created the prototype for a sentence generator which takes a user-inputted set of POS tags and outputs a sentence based on them, naming it &quot;Chomskers&quot; (not to be confused with the Chomskers Sentence Generator, this project). For example, if you input:</p>
+<p>Det N V Det Adj N</p>
+<p>You get:</p>
+<p>The man obfuscates the unhygienic farmer
+(though I&#39;m not sure if that exact sentence was able to be generated with it, the lexicon was VERY small). </p>
+<p>It was only made of the lexicon, a main function to input a set of POS tags, and then a set of constraints (e.g. you can&#39;t do N Adj). It was quite primitive and I wanted to improve upon it by creating an actual generator for it. It used regexes for this, which looking back wasn&#39;t too good; if I used list slicing and checked if a sequence was in the list, I could have the same thing without requiring another module. You learn, I suppose, and I&#39;d just finished CS50P at that point, and just used regexes for the Akkadian noun analyzer, my CS50P &quot;final project&quot;. </p>
+<p>I wanted to build on the lexical approach of taking POS tags and picking random words in their respective categories by making it so that the program, rather than the user, generate sentences. But it felt far-away; from what I&#39;d heard from other people, recursion and searching are some of the hardest things in programming. No way a guy who just finished CS50P could do it. Recursion was only touched on in the last bonus short of the entire course for only about 10 minutes, and I actually didn&#39;t even watch it. I don&#39;t remember why. But looking back, if I did, I would&#39;ve probably found this project much easier and implemented it earlier than I did, maybe.</p>
+<h2 id="the-overture">The Overture</h2>
+<hr>
+<p>About 5 days ago or so, I revisited the idea of creating a new version of Chomskers with the automatic sentence generation I thought about prior. I thought about the correspondence between lists and trees I only learned about from phrase structure diagrams as well as my Lisper friends (important later), my understanding being that the node depth has a direct correspondence to how many parentheses the thing is surrounded by. </p>
+<p>I began thinking about a function that expands terms according to a context-free grammar, imagining a tree starting with S, then expanding it to NP and VP, then looping through NP and VP, expanding NP and VP into their respective right-hand sides, then looping through each right-hand side recursively. This was the basic intuition for this project, basically checking and expanding depth-first.</p>
+<p>I had the idea in my mind for about 2 days before I opened my IDE. I was originally planning on not doing any more programming until I get a far better grounding in discrete math and algebra so I can get back to programming with a far clearer sense for what I&#39;m doing and why, since I generally spend more time architecting on pen and paper than I do writing code when I want to build something. </p>
+<p>But this time, I felt a strange attraction. This time, I didn&#39;t even draw it out; I went straight for my IDE. I knew exactly what the implementation would entail, though I didn&#39;t know the exact way I was to go about it in Python; after all, this is a language without tail-call optimization and a recursion limit. You can, of course, write recursive algorithms, but a lot of the time tuple unpacking and loops do what recursion would do elsewhere. I think that&#39;s what makes it attractive to beginners. </p>
+<p>The recursion limit I didn&#39;t need to worry about; the maximum node depth of a constituency tree doesn&#39;t often come close to 100, let alone 1000, performance can&#39;t allow that, at least in accordance with Chomskyan syntax. But recursion was a concept I felt like I needed to truly use somewhere original, and a CFG is the perfect place given its already recursive nature. Not a Fibonacci or factorial function, not a file finder, but something that both relates to my love for linguistics and creates a fun product that I can get some entertainment out of. So, I decided to create a random sentence generator. </p>
+<h2 id="the-linguistic-context">The Linguistic Context</h2>
+<hr>
+<p><em>I&#39;m not a linguist, just a guy who likes linguistics. Any mistakes I may make here I&#39;d like you to email me at codexderelict@proton.me; let&#39;s talk about it!</em></p>
+<p>One of the debates between so-called &quot;functionalist&quot; linguists and &quot;formalist&quot;/&quot;generative&quot; linguists, and indeed as well between generative linguists, is the role of syntax, the structure of sentences, in relation to semantics, the meaning of sentences. I&#39;d like to write an entire article on the gamut of views from the generative side (including the categorial grammar folks who believe syntax and semantics combine as functions and arguments, oh my!) as well as the usage-based side&#39;s quite fruitful dialogue with the generativists (such as Ivan Sag&#39;s SBCG). </p>
+<p>But in short, syntax was posited as a self-contained system, interfacing with meaning but unaffected by it, in some manner it&#39;s said that syntax is &quot;blind&quot; to semantics. To give you an example of a semantically well-formed sentence that isn&#39;t syntactically well formed, maybe something like:
+&quot;Never he talk, mouth like clam closed he is.&quot;
+You might understand that this sentence is about someone who is tight-lipped.
+In contrast, the sentence used by Chomsky in Syntactic Structures (1957) was this:
+&quot;Colorless green ideas sleep furiously.&quot;
+How can an idea be green? How can it simultaneously be colorless? I dare you to try and imagine a &quot;colorless green idea&quot;; you might think of a green lightbulb but one that&#39;s transparent, but that&#39;s not colorless. I guess it&#39;s not, at least.</p>
+<p>So, creating a sentence generator was partly motivated by seeing how often a sentence has some semblance of meaning. One example of a sentence generated by my generator is this:
+&quot;an offensively lithe nun delegitimizes our suddenly offensive lifestyle coach furiously&quot;
+&quot;Offensively lithe&quot; is nonsensical, but a nun delegitimizing a suddenly offensive lifestyle coach? It makes sense; a coach who suddenly breaks into a racist rant being told off by a woman of Christ as his rambling is contradictory to his work, which is supposed to be to help people in varying life situations no matter what they are.</p>
+<p>I noticed a semantic gradient in how much sense they make in terms of the sentences generated; not sure if this is because I stared at it too long, or something about the pseudorandom nature of the random module, or just pure convergence given a finite lexicon inspired by my own thoughts to some extent. I can&#39;t really test that out statistically for now, though...</p>
+<h2 id="the-code-itself">The Code Itself</h2>
+<hr>
+<h3 id="cfgengine-py">CFGengine.py</h3>
+<hr>
+<p>The module that&#39;s at the center of the entire program. It includes a class Grammar that takes only one argument, that being one of the context-free grammars in grammar.py, calling it <code>rules</code>, which I&#39;ll touch on later. The other attributes defined in <code>__init__</code> are <code>POSTags</code>, the list of possible POS tags from <code>lexicon.py</code>, which I&#39;ll also touch on later, <code>lexicon</code>, which is the lexicon taken from lexicon.py. </p>
+<p>The first method is <code>expand</code>, which recursively expands terms depth-first in accordance with the defined phrase structure rules in <code>rules</code> until no more expansions are possible. For example, a grammar like:</p>
+<pre><code>S <span class="hljs-string">| NP VP</span>
+NP <span class="hljs-string">| DP N</span>
+VP <span class="hljs-string">| V</span>
+DP <span class="hljs-string">| Det Adj</span>
+</code></pre><p>would work in the following way:
+First, S is expanded into <code>NP VP</code>. Then, since NP comes first, <code>NP</code> is expanded into <code>DP N</code>, then since <code>DP</code> comes first, it&#39;s expanded into <code>Det Adj</code>. At that level, there&#39;s no more phrase-structure rules to apply, so it moves onto <code>N</code>. No phrase structure rules apply, so it moves onto <code>VP</code> and does the same. It&#39;s a depth-first search and expansion, basically. At each level, the symbols are collected into a list and the entire list of lists is returned to the highest level when there aren&#39;t any more transformations. You can see it this way:</p>
+<pre><code><span class="hljs-comment">[S]</span>
+<span class="hljs-comment">[NP VP]</span>
+Now we focus on NP alone:
+NP
+<span class="hljs-comment">[DP N]</span>
+<span class="hljs-comment">[<span class="hljs-comment">[Det Adj]</span> N]</span> 
+Only then <span class="hljs-keyword">is</span> it returned:
+<span class="hljs-comment">[<span class="hljs-comment">[<span class="hljs-comment">[Det Adj]</span> N]</span> VP]</span>
+</code></pre><p>This recursive list-in-list approach will be relevant later...</p>
+<p>In any case, the second one is <code>validate</code>. It searches depth-first in the same manner as <code>expand</code> to check if all phrase structure rules are applied, which is only true if all symbols are POS tags and therefore terminal. However, they are non-terminal at the lexical level when they&#39;re replaced with a random word. </p>
+<p><code>flatten</code> is a similarly depth-first algorithm which creates a list and adds the symbols individually, therefore &quot;flattening&quot; it from the list-in-list structure they&#39;re in. It uses Python&#39;s <code>extend</code> function to recursively add individual elements within lists, as at each level there could be a mix of lists and symbols, so extending their contents &quot;moves&quot; them out of the list.</p>
+<p><code>pickWords</code> takes the flattened list of POS tags and switches them out with a random word from the lexicon that fits the tag using <code>random.choice</code>. The grammars and lexicon are represented as key-value pairs, and I&#39;ll talk more about them when we get to <code>grammar.py</code> and <code>lexicon.py</code>... which is right now! </p>
+<h3 id="lexicon-py">lexicon.py</h3>
+<hr>
+<p>As I mentioned before, the POS tags are terminal at the context-free grammar&#39;s level, but are not so lexically. So, the lexicon is a dictionary. The keys are POS tags, and the values are lists of words. It went through multiple iterations, getting more granular though there&#39;s a limit to the granularity until I probably decide to rewrite it later in another language using feature structures and unification. </p>
+<p>One example is distinguishing transitive from intransitive verbs; there&#39;s two keys, <code>V_trans</code> and <code>V_intr</code>; there&#39;s also a distinction between conjunctions that are permitted to connect incomplete phrases (e.g. &quot;and&quot;) and ones that can&#39;t. I&#39;m always adding new words to it (a good bit of it is Claude, because I&#39;m not very funny). </p>
+<h3 id="grammar-py">grammar.py</h3>
+<hr>
+<p><code>grammar.py</code> has all of the CFGs in dicts, wherein the keys are the left-hand side and the values are the right-hand side. As this is context-free grammar based, the LHS is always a solitary symbol, hence why it&#39;s called &quot;context-free&quot;, it doesn&#39;t matter what other symbols surround it or its position, the transformation remains the exact same. </p>
+<p>All grammars are connected in a list called <code>grammarList</code>, such that <code>random.choice</code> can choose from them. Moreover, the non-terminals&#39; names don&#39;t matter so long as they bottom out into terminal symbols whose names do matter, lest a KeyError come up as it doesn&#39;t exist in <code>lexicon</code>. </p>
+<p>The grammars are deterministic and not contingent on input. Any LHS needs to correspond to one single RHS. If you want an DP to transform into <code>Det Adj</code> or just <code>Det</code>, you need to define two separate grammars, which is fine for me, if I&#39;m honest. </p>
+<h1 id="what-i-ve-learned">What I&#39;ve learned</h1>
+<hr>
+<p>While I&#39;d architected the depth-first recursion algorithm prior, I didn&#39;t know the exact Python implementation; Claude helped me with figuring out how to say specific things in Python by helping me rewrite my algorithms. Translating from Cognitivese to Python was difficult; I tried a good bit before Claude came along. It was a learning opportunity to see how to implement recursion in Python specifically, where for loops are generally preferred where recursion may be found in a functional programming language. I now understand how it&#39;s done, but in honesty, I don&#39;t want to work with Python for something like this again. </p>
+<p>On the topic of functional languages, I understand why Lisp remains big with computational linguists (not the modern deep learning folks, but the ones who wish to construct formal, well-defined frameworks to explain and describe natural language. No knock to them, I think there should be more dialogue between the new-school ML folks and the old-school symbolicians). Recursing over symbols practically screams for a list-in-list approach, and there&#39;s a clear tether between the code itself and what you want to represent (e.g. recursion, unification, etc). </p>
+<p>I also realized that one of the things I feared about learning a Lisp dialect, the atom/list system and homoiconicity, I&#39;d already implemented in Python. I used a formal language to reason over formal languages, and Lisp is built upon doing exactly that. It gave me a good bit of confidence in learning a Lisp dialect, though I need to get used to a good bit of it, including the macro system. I&#39;ve decided on Racket, specifically because of its ease of use, rich resources (HtDP and the Guide, the former uses what is basically dialects of Racket that are intentionally limited for pedagogical reasons, and the latter is Racket&#39;s documentation that&#39;s made specifically to learn from). I&#39;ve installed DrRacket today and have been messing around with it with BSL while reading HtDP and putting down notes.</p>
+<p>I&#39;m excited to start working on my CFG-based generator in Racket, which would allow me to extend it with feature structures using Racket&#39;s structs, association lists and hash tables for transformation rules, and its great pattern matching functions and macro system which is meant to build new languages overtop, including logic programming (which would be great for unification or formal semantic representations of the generator&#39;s outputs). Lisp doesn&#39;t feel scary anymore, it feels liberating to see how much easier I could do a lot of this kind of work with it. The learning curve is well worth it. </p>
+<h1 id="in-conclusion">In conclusion</h1>
+<hr>
+<p>I learned a lot from this project, and I&#39;d say that I also learned a lot about programming languages, too, at least more than I originally knew. I&#39;m very proud of it, too, as I never believed I could architect and build something like this. I also can&#39;t wait to get good enough with Racket to implement my own macros, use structs and build a syntax-semantics interface for the generator. One interesting thought I had (for far far in the future) was actually integrating distributional semantics; using a pre-trained model to measure the embedding distances between the words used would give me an interesting semantic gradient, and possibly even answer the question I had earlier about how some sentences could make a little sense, a good bit of sense, and a lot of sense.</p>
+
+        <p><a href="/index.html">Back to main page</a></p>
+        <p><a href="/lmc/">Back to container section</a></p>
+    </div>
+    </body>
+</html>
