@@ -8,7 +8,7 @@
         <div class="box">
             <h1>Code Report: Chomskers Sentence Generator</h1>
             <h4>Or, How I Learned to Stop Worrying and Love Lisp</h4>
-            <h4>July 3rd, 2026</h4>
+            <h3>July 3rd, 2026</h3>
             <hr>
             <p>About 6 months ago, I created the prototype for a sentence generator which takes a user-inputted set of POS tags and outputs a sentence based on them, naming it &quot;Chomskers&quot; (not to be confused with the Chomskers Sentence Generator, this project). For example, if you input:</p>
 <p>Det N V Det Adj N</p>
@@ -19,13 +19,13 @@
 <p>I wanted to build on the lexical approach of taking POS tags and picking random words in their respective categories by making it so that the program, rather than the user, generate sentences. But it felt far-away; from what I&#39;d heard from other people, recursion and searching are some of the hardest things in programming. No way a guy who just finished CS50P could do it. Recursion was only touched on in the last bonus short of the entire course for only about 10 minutes, and I actually didn&#39;t even watch it. I don&#39;t remember why. But looking back, if I did, I would&#39;ve probably found this project much easier and implemented it earlier than I did, maybe.</p>
 <h2 id="the-overture">The Overture</h2>
 <hr>
-<p>About 5 days ago or so, I revisited the idea of creating a new version of Chomskers with the automatic sentence generation I thought about prior. I thought about the correspondence between lists and trees I only learned about from phrase structure diagrams as well as my Lisper friends (important later), my understanding being that the node depth has a direct correspondence to how many parentheses the thing is surrounded by. </p>
+<p>About 5 days ago or so, I revisited the idea of creating a new version of Chomskers (which you can find at the bottom of the page) with the automatic sentence generation I thought about prior. I thought about the correspondence between lists and trees I only learned about from phrase structure diagrams as well as my Lisper friends (important later), my understanding being that the node depth has a direct correspondence to how many parentheses the thing is surrounded by. </p>
 <p>I began thinking about a function that expands terms according to a context-free grammar, imagining a tree starting with S, then expanding it to NP and VP, then looping through NP and VP, expanding NP and VP into their respective right-hand sides, then looping through each right-hand side recursively. This was the basic intuition for this project, basically checking and expanding depth-first.</p>
 <p>I had the idea in my mind for about 2 days before I opened my IDE. I was originally planning on not doing any more programming until I get a far better grounding in discrete math and algebra so I can get back to programming with a far clearer sense for what I&#39;m doing and why, since I generally spend more time architecting on pen and paper than I do writing code when I want to build something. </p>
 <p>But this time, I felt a strange attraction. This time, I didn&#39;t even draw it out; I went straight for my IDE. I knew exactly what the implementation would entail, though I didn&#39;t know the exact way I was to go about it in Python; after all, this is a language without tail-call optimization and a recursion limit. You can, of course, write recursive algorithms, but a lot of the time tuple unpacking and loops do what recursion would do elsewhere. I think that&#39;s what makes it attractive to beginners. </p>
 <p>The recursion limit I didn&#39;t need to worry about; the maximum node depth of a constituency tree doesn&#39;t often come close to 100, let alone 1000, performance can&#39;t allow that, at least in accordance with Chomskyan syntax. But recursion was a concept I felt like I needed to truly use somewhere original, and a CFG is the perfect place given its already recursive nature. Not a Fibonacci or factorial function, not a file finder, but something that both relates to my love for linguistics and creates a fun product that I can get some entertainment out of. So, I decided to create a random sentence generator. </p>
 <h2 id="the-linguistic-context">The Linguistic Context</h2>
-<hr>
+<hr>x
 <p><em>I&#39;m not a linguist, just a guy who likes linguistics. Any mistakes I may make here I&#39;d like you to email me at codexderelict@proton.me; let&#39;s talk about it!</em></p>
 <p>One of the debates between so-called &quot;functionalist&quot; linguists and &quot;formalist&quot;/&quot;generative&quot; linguists, and indeed as well between generative linguists, is the role of syntax, the structure of sentences, in relation to semantics, the meaning of sentences. I&#39;d like to write an entire article on the gamut of views from the generative side (including the categorial grammar folks who believe syntax and semantics combine as functions and arguments, oh my!) as well as the usage-based side&#39;s quite fruitful dialogue with the generativists (such as Ivan Sag&#39;s SBCG). </p>
 <p>But in short, syntax was posited as a self-contained system, interfacing with meaning but unaffected by it, in some manner it&#39;s said that syntax is &quot;blind&quot; to semantics. To give you an example of a semantically well-formed sentence that isn&#39;t syntactically well formed, maybe something like:
@@ -80,7 +80,7 @@ Only then <span class="hljs-keyword">is</span> it returned:
 <h1 id="in-conclusion">In conclusion</h1>
 <hr>
 <p>I learned a lot from this project, and I&#39;d say that I also learned a lot about programming languages, too, at least more than I originally knew. I&#39;m very proud of it, too, as I never believed I could architect and build something like this. I also can&#39;t wait to get good enough with Racket to implement my own macros, use structs and build a syntax-semantics interface for the generator. One interesting thought I had (for far far in the future) was actually integrating distributional semantics; using a pre-trained model to measure the embedding distances between the words used would give me an interesting semantic gradient, and possibly even answer the question I had earlier about how some sentences could make a little sense, a good bit of sense, and a lot of sense.</p>
-
+<p>You can find the source code for the project right <a href="https://github.com/codexderelict/Chomskers-Sentence-Generator-V2">here</a>.</p>
         <p><a href="/index.html">Back to main page</a></p>
         <p><a href="/lmc/">Back to container section</a></p>
     </div>
