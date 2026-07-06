@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>tag:codexderelict.github.io,2026:feed</id>
+  <title>CodexDerelict's Derelict Codex</title>
+  <subtitle>The stomping ground of Omar M.</subtitle>
+  <link rel="self" href="https://codexderelict.github.io/atom.xml" type="application/atom+xml" />
+  <link rel="alternate" href="https://codexderelict.github.io/" />
+  <author>
+    <name>Omar Mohammed</name>
+  </author>
+  <updated>2026-06-14T00:00:00Z</updated>
+  <entry>
+    <id>tag:codexderelict.github.io,2026:atom-feed</id>
+    <title>An Atom feed is now available!</title>
+    <link rel="alternate" href="https://codexderelict.github.io/atom.xml" />
+    <published>2026-07-06T00:00:00Z</published>
+    <updated>2026-07-06T00:00:00Z</updated>
+    <summary>An RSS feed is now available!</summary>
+  </entry>
+</feed>
+ 
