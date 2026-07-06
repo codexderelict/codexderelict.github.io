@@ -5,6 +5,9 @@ body {
     min-height: 100vh;
     overflow-wrap: break-word;
 }
+a {
+    color: #0000EE;
+}
 .box { 
     margin: 5px auto;
     padding: 8px;
