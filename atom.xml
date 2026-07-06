@@ -8,7 +8,7 @@
   <author>
     <name>Omar Mohammed</name>
   </author>
-  <updated>2026-06-14T00:00:00Z</updated>
+  <updated>2026-07-06T00:00:00Z</updated>
   <entry>
     <id>tag:codexderelict.github.io,2026:atom-feed</id>
     <title>An Atom feed is now available!</title>
@@ -17,5 +17,15 @@
     <updated>2026-07-06T00:00:00Z</updated>
     <summary>An Atom feed is now available!</summary>
   </entry>
+  <entry>
+    <id>tag:codexderelict.github.io,2026:links-added</id>
+    <title>Links have been added!</title>
+    <link rel="alternate" href="https://codexderelict.github.io/gpl/links.html"/>
+    <published>2026-07-06T00:00:00Z</published>
+    <updated>2026-07-06T00:00:00Z</updated>
+    <summary>I added external links to interesting sites, check them out!</summary>
+  </entry>
+
+
 </feed>
  
