@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Code Report: Akkadian Nominal Morphoanalyzer</title>
+        <link rel="stylesheet" href="/style.css">
+    </head>
+    <body>
+        <div class="box">
+            <h1>Code Report: Akkadian Nominal Morphoanalyzer</h1>
+            <h4>March 9th, 2026</h4>
+        <hr>
+            <p>
+                My first true CL/NLP project was a Python program that used regular expressions to analyze Akkadian nouns in specific (check it out <a href="https://github.com/codexderelict/Akkadian-Nominal-Morphoanalyzer-/">here</a>). I had the idea in mind for a good bit before that, but my first true implementation was built sometime in December of 2025. I chose Akkadian mainly because in terms of Semitic languages, nouns are agglutinative and there are no broken plurals, and so are concatenative. In verbs, however, they do go beyond simple regexes without backreferencing, lookaheads and lookbehinds, which is why I didn't use them here. The concatenative character of Akkadian morphology makes it conducive for a normal regular language as opposed to something more expressive, maybe something between regular and context-free (since verbs do require processing the roots and stems in conjunction, I think they go beyond a memoryless regular language and would require recursion to extract features, but regexes do have that expressive power anyway). Regexes also have the power for a letter either to exist once or not at all (?), so handling mimation was a breeze. 
+                <br>
+                <br>
+The code's design is extensible, being that regex patterns are self-contained and could be added, erased or remade. The GUI and engine don't need much of any fixing comparatively as the idea behind them is static, its implementation differs only slightly (e.g. feature structures could be a dict and not class attributes, regexes that use more expressive techniques to extract roots and stems of verbal nouns, new types of nouns, et cetera). 
+                <br>
+                <br>
+I also used PySimpleGUI (or rather FreeSimpleGUI) for the frontend, which is a wrapper for different GUI frameworks (including Tkinter, default with Python). It's simple to use, and I like the minimalist design it offers, makes me feel like I just downloaded something from 2005. The image (also made by me!) was meant to represent that as well, with the blue gradient, a cheatsheet from "Mastering Regular Expressions" by Friedl and the image of a cuneiform tablet fading together. 
+                <br>
+                <br>
+<img src="https://raw.githubusercontent.com/codexderelict/Akkadian-Nominal-Morphoanalyzer-/refs/heads/main/V1/image.png">
+                <br>
+                <br>
+Fundamentally, how it works is this: For a word or words (in later versions), it creates an object of class Noun, its attributes being its features which are extracted from a dictionary of regex patterns and the features in a list. Version 1 supported a maximum of one word, version 2 two words. 
+                <br>
+                <br>
+Version 1.0 supported a maximum of one word, and only analyzed for case, gender and number. This was just to get things started and to build a base I could customize on. It's made up of three parts: 
+                <br>
+                <br>
+-noun_patterns.py: The dictionary of regexes and their respective features as a list/array. For example, 
+                <br>
+                <br>
+<pre>
+<code>
+    r"[^t]um?$": ["masc", "sg", "nom"],
+</code>
+</pre>
+This regex means: match a word such that it ends with um, with the m optional, and the letter t does not precede the suffix "um". This means that it's masculine (as the stem does not have -t at the end), nominative and singular (as it ends with -um or -u). 
+                <br>
+                <br>
+-akkadian_engine.py: The program that instantiates Noun objects, by taking a lemma as input, looping over regexes until it gets a match, and returning the value as attributes. 
+                <br>
+                <br>
+-main.py: The GUI frontend, where the user can enter a word. 
+                <br>
+                <br>
+Version 1.1 offered an upgrade: state analysis. In Semitic languages, a "state" marks the relation between two nouns. Arabic only has two such states, but Akkadian has three. If a noun is marked distinctly with a suffix for case, it is in the governed state, which you could think of as the "default" state (there are nominal sentences where a subject and predicate are put together without a verb, so the relation between them is nominal, so states are used). The absolute state in Akkadian is mostly only used to mark predicates in nominal sentences, while the construct state (present in Arabic and Hebrew) marks possession where the possessed noun is in the construct state, and the possessor is in the governed state with the genitive ending. 
+                <br>
+                <br>
+The absolute and construct state are only differentiated morphosyntactically, as both are zero-marked and have no suffixes (except gender and number), and so require surrounding context to be properly disambiguated. Which leads me to:
+Version 2.0, which now supports two nouns. The addition of a new file, disambiguate.py, handles state disambiguation. It creates an object of class NounPhrase that takes two noun objects as attributes, and then applies a method to disambiguate them. If an unmarked noun is preceded by a noun in the nominative, it's known to be a predicate and thus in the absolute state. If it's is succeeded by a noun in the genitive, it's in the construct state. 
+                <br>
+                <br>
+Version 3.0 is on the backburner as I'm focusing on other things at the moment, in specific strengthening my knowledge of discrete math, algebra, linear algebra, trigonometry and calculus for the Master's I'd like to pursue. However, I do have a good number of ideas for manners to improve it. 
+                <br>
+                <br>
+Firstly, switching the feature structure system from class attributes to dictionaries. This will extend the number of nouns possible to be inputted, new types and features could be added (e.g. NominalNoun vs VerbalNoun), and make printing them on the screen more uniform, as all that's needed is to print each key-value pair of each object. 
+                <br>
+                <br>
+Secondly, further handling ambiguity, as the masculine plural is marked the same in the absolute and construct state as in the nominative governed state, so new constraints need to be added to handle those. 
+                <br>
+                <br>
+However, I still want it to focus on nouns for the moment and not make it a full Akkadian parser. That could be what it could become down the line, but who knows at this moment? 
+
+            </p>
+        <p><a href="/index.html">Back to main page</a></p>
+        <p><a href="/lmc/">Back to container section</a></p>
+    </body>
+</html>
