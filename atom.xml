@@ -25,5 +25,13 @@
     <updated>2026-07-06T00:00:00Z</updated>
     <summary>I added external links to interesting sites, check them out!</summary>
   </entry>
+    <entry>
+    <id>tag:codexderelict.github.io,2026:links-added</id>
+    <title>More links!</title>
+    <link rel="alternate" href="https://codexderelict.github.io/gpl/links.html"/>
+    <published>2026-07-21T00:00:00Z</published>
+    <updated>2026-07-21T00:00:00Z</updated>
+    <summary>More links to the Open Logic Project!</summary>
+  </entry>
 </feed>
  
