@@ -26,7 +26,7 @@
     <summary>I added external links to interesting sites, check them out!</summary>
   </entry>
     <entry>
-    <id>tag:codexderelict.github.io,2026:links-added</id>
+    <id>tag:codexderelict.github.io,2026:more-links</id>
     <title>More links!</title>
     <link rel="alternate" href="https://codexderelict.github.io/gpl/links.html"/>
     <published>2026-07-21T00:00:00Z</published>
@@ -34,12 +34,20 @@
     <summary>More links to the Open Logic Project!</summary>
   </entry>
     <entry>
-    <id>tag:codexderelict.github.io,2026:links-added</id>
+    <id>tag:codexderelict.github.io,2026:haken-new-ep</id>
     <title>New article!</title>
     <link rel="alternate" href="https://codexderelict.github.io/vgmr/feverdream.html"/>
     <published>2026-07-21T00:00:00Z</published>
     <updated>2026-07-21T00:00:00Z</updated>
     <summary>Added a review of Haken's new EP!</summary>
+  </entry>
+    <entry>
+    <id>tag:codexderelict.github.io,2026:new-review-contrastic</id>
+    <title>New article!</title>
+    <link rel="alternate" href="https://codexderelict.github.io/vgmr/contrastic1.html"/>
+    <published>2026-08-27T00:00:00Z</published>
+    <updated>2026-08-27T00:00:00Z</updated>
+    <summary>Added a review of Contrastic's 2000 album!</summary>
   </entry>
 </feed>
  
