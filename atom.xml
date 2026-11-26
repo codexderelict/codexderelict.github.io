@@ -73,6 +73,13 @@
     <updated>2026-10-13T00:00:00Z</updated>
     <summary>Added new linguistics links!</summary>
   </entry>
-    <entry>
+      <entry>
+    <id>tag:codexderelict.github.io,2026:sweet-bitter-lesson</id>
+    <title>New article!</title>
+    <link rel="alternate" href="https://codexderelict.github.io/lmc/sweetbitterlesson.html"/>
+    <published>2026-11-26T00:00:00Z</published>
+    <updated>2026-11-26T00:00:00Z</updated>
+    <summary>A new article about linguistics in the age of LLMs!</summary>
+  </entry>
 </feed>
  
